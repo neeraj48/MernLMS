@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { userLoggedIn } from "../authSlice";
+import { userLoggedIn, userLoggedOut } from "../authSlice";
 
 const BASE_URL = "http://localhost:8080/api/v1/user/";
 
@@ -32,10 +32,46 @@ export const authApi = createApi({
         }
       },
     }),
+    logoutUser: builder.mutation({
+      query: () => ({
+        url: "logout",
+        method: "GET",
+      }),
+      async onQueryStarted(_, { queryFullfilled, dispatch }) {
+        try {
+          dispatch(userLoggedOut());
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      // async onQueryStarted(_, { queryFullfilled, dispatch }) {
+      //   try {
+      //     // const result = await queryFullfilled;
+      //     dispatch(userLoggedIn({ user: null }));
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // },
+    }),
     getUserProfile: builder.query({
       query: () => ({
         url: "profile",
         method: "GET",
+      }),
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(userLoggedIn({ user: result?.data?.user }));
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
+    updateUserProfile: builder.mutation({
+      query: (formData) => ({
+        url: "profile/update",
+        method: "POST",
+        body: formData,
       }),
       async onQueryStarted(_, { queryFulfilled, dispatch }) {
         try {
@@ -51,6 +87,8 @@ export const authApi = createApi({
 
 export const {
   useLoginUserMutation,
+  useLogoutUserMutation,
   useRegisterUserMutation,
   useGetUserProfileQuery,
+  useUpdateUserProfileMutation,
 } = authApi;

@@ -70,7 +70,7 @@ export const login = async (req, res) => {
 export const logout = async (_, res) => {
   try {
     res.status(200).cookie("token", "", { maxAge: 0 }).json({
-      message: "Logged out successfully",
+      message: "User log out successfully",
       success: true,
     });
   } catch (error) {
@@ -109,7 +109,7 @@ export const updateProfile = async (req, res) => {
   try {
     const userId = req.id;
     const { name } = req.body;
-    const profilePhoto = req.file;
+    const profilePhoto = req.file.path;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -119,23 +119,20 @@ export const updateProfile = async (req, res) => {
       });
     }
 
-    if (user.photoUrl) {
-      const publicId = user.photoUrl.split("/").pop("").split(" ")[0]; //extract public id from photoUrl
-      deleteUploadedMedia(publicId);
+    if (user?.photoUrl) {
+      const publicId = user?.photoUrl.split("/").pop("").split(" ")[0]; //extract public id from photoUrl
     }
     const cloudResp = await uploadMedia(profilePhoto);
-    const photoUrl = cloudResp.secure_url;
+    const photoUrl = cloudResp?.secure_url;
     const updatedData = { name, photoUrl };
     const updateUser = await User.findByIdAndUpdate(userId, updatedData, {
       new: true,
     }).select("-password");
-    res
-      .status(200)
-      .json({
-        message: "Profile updated successfulyy",
-        success: true,
-        updateUser,
-      });
+    res.status(200).json({
+      message: "Profile updated successfulyy",
+      success: true,
+      updateUser,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
