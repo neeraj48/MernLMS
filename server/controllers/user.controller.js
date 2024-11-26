@@ -121,6 +121,7 @@ export const updateProfile = async (req, res) => {
 
     if (user?.photoUrl) {
       const publicId = user?.photoUrl.split("/").pop("").split(" ")[0]; //extract public id from photoUrl
+      await deleteUploadedMedia(publicId);
     }
     const cloudResp = await uploadMedia(profilePhoto);
     const photoUrl = cloudResp?.secure_url;
