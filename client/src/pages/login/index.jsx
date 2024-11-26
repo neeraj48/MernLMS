@@ -137,13 +137,13 @@ const LoginPage = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button onClick={() => handleRegistration("singup")}>
+            <Button size="lg" disabled={regIsLoading} onClick={() => handleRegistration("singup")}>
               {regIsLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
                 </>
               ) : (
-                "SigUp"
+                "SignUp"
               )}
             </Button>
           </CardFooter>
@@ -183,13 +183,13 @@ const LoginPage = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button onClick={() => handleRegistration("signin")}>
+            <Button size="lg" disabled={loginIsLoading} onClick={() => handleRegistration("signin")}>
               {loginIsLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
                 </>
               ) : (
-                "SigIn"
+                "SignIn"
               )}
             </Button>
           </CardFooter>

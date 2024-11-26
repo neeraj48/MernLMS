@@ -26,7 +26,9 @@ export const authApi = createApi({
       async onQueryStarted(_, { queryFullfilled, dispatch }) {
         try {
           const result = await queryFullfilled;
-          dispatch(userLoggedIn({ user: result?.data?.user }));
+          if (result) {
+            dispatch(userLoggedIn({ user: result?.data?.user }));
+          }
         } catch (error) {
           console.log(error);
         }
@@ -44,14 +46,6 @@ export const authApi = createApi({
           console.log(error);
         }
       },
-      // async onQueryStarted(_, { queryFullfilled, dispatch }) {
-      //   try {
-      //     // const result = await queryFullfilled;
-      //     dispatch(userLoggedIn({ user: null }));
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // },
     }),
     getUserProfile: builder.query({
       query: () => ({

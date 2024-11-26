@@ -7,17 +7,17 @@ import store from "./app/store";
 import { useGetUserProfileQuery } from "./feature/api/authApi";
 import LoadingSpinner from "./components/LoadingSpinner";
 
-const custom = ({ children }) => {
+const Custom = ({ children }) => {
   const { isLoading } = useGetUserProfileQuery();
-  return <>{isLoading ? <LoadingSpinner /> : { children }}</>;
+  return <>{isLoading ? <LoadingSpinner /> : <>{children}</>}</>;
 };
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>
   <Provider store={store}>
-    <custom>
+    <Custom>
       <App />
-    </custom>
+    </Custom>
   </Provider>
   // </StrictMode>,
 );

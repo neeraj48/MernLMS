@@ -19,6 +19,7 @@ import {
 } from "@/feature/api/authApi";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const Profile = () => {
   const [userName, setUserName] = useState();
@@ -59,10 +60,7 @@ const Profile = () => {
     }
   }, [error, updateUserData, isSuccess, isError]);
 
-  if (isLoading)
-    return (
-      <Loader2 className=" text-center m-auto  my-32 h-32 w-32 animate-spin" />
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="max-w-5xl mx-auto px-4 my-24">
@@ -143,7 +141,10 @@ const Profile = () => {
                     type="submit"
                   >
                     {updateIsLoading ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Loading...
+                      </>
                     ) : (
                       "Update"
                     )}
