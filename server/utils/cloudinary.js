@@ -22,7 +22,7 @@ export const uploadMedia = async (file) => {
 
 export const deleteUploadedMedia = async (publicId) => {
   try {
-    const pubId = publicId?.split(".")[0]  //removed img extention
+    const pubId = publicId?.split(".")[0]; //removed img extention
     const resp = await cloudinary.uploader.destroy(pubId);
     // console.log("Media deleted successfully",resp);
   } catch (error) {
