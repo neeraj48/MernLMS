@@ -99,7 +99,7 @@ const CourseTable = () => {
               </TableCell>
               <TableCell>{x?.courseTitle}</TableCell>
               <TableCell className="text-right">
-                <Button size="md" variant="ghost">
+                <Button size="md" variant="ghost" onClick={()=>navigate(`${x?._id}`)}>
                   <Edit />
                 </Button>
               </TableCell>
