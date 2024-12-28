@@ -88,7 +88,7 @@ const LoginPage = () => {
   }, [regIsLoading, loginIsLoading, regData, loginData, regError, loginError]);
 
   return (
-    <Tabs defaultValue="account" className="w-[400px] m-auto mt-20">
+    <Tabs defaultValue="signIn" className="w-[400px] m-auto mt-20">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="account">SignUp</TabsTrigger>
         <TabsTrigger value="signIn">SignIn</TabsTrigger>
@@ -137,7 +137,11 @@ const LoginPage = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button size="lg" disabled={regIsLoading} onClick={() => handleRegistration("singup")}>
+            <Button
+              size="lg"
+              disabled={regIsLoading}
+              onClick={() => handleRegistration("singup")}
+            >
               {regIsLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
@@ -183,7 +187,11 @@ const LoginPage = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button size="lg" disabled={loginIsLoading} onClick={() => handleRegistration("signin")}>
+            <Button
+              size="lg"
+              disabled={loginIsLoading}
+              onClick={() => handleRegistration("signin")}
+            >
               {loginIsLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait

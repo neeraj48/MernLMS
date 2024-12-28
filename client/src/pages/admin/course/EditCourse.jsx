@@ -12,7 +12,7 @@ const EditCourse = () => {
           <Button variant="link">Go to lecture page</Button>
         </Link>
       </div>
-      <CourseTab/>
+      <CourseTab />
     </div>
   );
 };

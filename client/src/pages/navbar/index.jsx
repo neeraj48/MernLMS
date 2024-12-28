@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   console.log(user);
   const navigate = useNavigate();
@@ -70,22 +70,29 @@ const Header = () => {
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuItem onClick={logoutHandler}>
-                    Logout
+                    <Link>Logout</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => {
-                      navigate("/admin/dashboard");
-                    }}
-                  >
-                    Dashboard
-                  </DropdownMenuItem>
+
+                  {user?.role === "admin" ? (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/admin/dashboard");
+                        }}
+                      >
+                        <Link>Dashboard</Link>
+                      </DropdownMenuItem>
+                    </>
+                  ) : null}
                 </DropdownMenuContent>
               </DropdownMenu>
             </>
           ) : (
             <div className="flex flex-wrap gap-4">
-              {/* <Button variant="outline">SignIn</Button> */}
+              <Button variant="outline" onClick={handleSignup}>
+                SignIn
+              </Button>
               <Button onClick={handleSignup}>SignUp</Button>
             </div>
           )}

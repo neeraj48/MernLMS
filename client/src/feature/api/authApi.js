@@ -26,9 +26,7 @@ export const authApi = createApi({
       async onQueryStarted(_, { queryFullfilled, dispatch }) {
         try {
           const result = await queryFullfilled;
-          if (result) {
-            dispatch(userLoggedIn({ user: result?.data?.user }));
-          }
+          dispatch(userLoggedIn({ user: result?.data?.user }));
         } catch (error) {
           console.log(error);
         }
