@@ -6,7 +6,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -91,16 +90,18 @@ const CourseTable = () => {
         <TableBody>
           {data?.course.map((x) => (
             <TableRow key={x._id}>
-              <TableCell className="font-medium">
-                {x?.coursePrice || "NA"}
-              </TableCell>
+              <TableCell className="font-medium">{x?.price || "NA"}</TableCell>
               <TableCell>
                 <Badge>{x?.isPublished ? "Published" : "Draft"}</Badge>
               </TableCell>
               <TableCell>{x?.courseTitle}</TableCell>
               <TableCell className="text-right">
-                <Button size="md" variant="ghost" onClick={()=>navigate(`${x?._id}`)}>
-                  <Edit />
+                <Button
+                  size="md"
+                  variant="ghost"
+                  onClick={() => navigate(`${x?._id}`)}
+                >
+                  <Edit color="green" />
                 </Button>
               </TableCell>
             </TableRow>

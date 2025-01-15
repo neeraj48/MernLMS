@@ -18,20 +18,46 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useEditCourseMutation,
+  useGetCourseByIdQuery,
+} from "@/feature/api/courseApi";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const CourseTab = () => {
   const navigate = useNavigate();
+  const params = useParams();
+  const courseId = params.courseId;
   const [input, setInput] = useState({
     courseTitle: "",
-    courseSubtitle: "",
-    descrition: "",
+    subtitle: "",
+    description: "",
     category: "",
     courseLevel: "",
     coursePrice: "",
     courseThumbnail: "",
   });
+  const [editCourse, { data, isLoading, error, isSuccess }] =
+    useEditCourseMutation();
+  const { data: getCourseByIdData, isLoading: getCourseByIdLoading } =
+    useGetCourseByIdQuery(courseId);
+  const course = getCourseByIdData?.course;
+  useEffect(() => {
+    if (course) {
+      setInput({
+        courseTitle: course.courseTitle,
+        subtitle: course.subtitle,
+        description: course.description,
+        category: course.category,
+        courseLevel: course.courseLevel,
+        coursePrice: course.price,
+        courseThumbnail: course.courseThumbnail,
+      });
+    }
+  }, [course]);
   const isPublished = false;
   const changeEventHandler = (e) => {
     const { name, value } = e.target;
@@ -53,6 +79,29 @@ const CourseTab = () => {
       fileReader.readAsDataURL(file);
     }
   };
+
+  const updateCourseHandler = async () => {
+    const formdata = new FormData();
+    formdata.append("courseTitle", input.courseTitle);
+    formdata.append("subtitle", input.subtitle);
+    formdata.append("description", input.description);
+    formdata.append("category", input.category);
+    formdata.append("courseLevel", input.courseLevel);
+    formdata.append("price", input.coursePrice);
+    formdata.append("courseThumbnail", input.courseThumbnail);
+    await editCourse({ formdata, courseId });
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data?.message || "Course updated");
+      // navigate("/admin/course");
+    }
+    if (error) {
+      toast.error(error?.message || "Something went wrong! Please try again");
+    }
+  }, [data, isSuccess, error]);
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
@@ -74,20 +123,20 @@ const CourseTab = () => {
           <div>
             <Label>Title</Label>
             <Input
-              type="text"
               name="courseTitle"
-              value={input.courseTitle}
-              onChane={changeEventHandler}
               placeholder="Ex- Full Stack Developer"
+              type="text"
+              value={input.courseTitle}
+              onChange={changeEventHandler}
             />
           </div>
           <div>
             <Label>Subtitle</Label>
             <Input
               type="text"
-              name="courseSubtitle"
-              value={input.courseSubtitle}
-              onChane={changeEventHandler}
+              name="subtitle"
+              value={input.subtitle}
+              onChange={changeEventHandler}
               placeholder="Ex- Become a Zero to Hero Full Stack Developer"
             />
           </div>
@@ -148,7 +197,7 @@ const CourseTab = () => {
                 type="number"
                 name="coursePrice"
                 value={input.coursePrice}
-                onChane={changeEventHandler}
+                onChange={changeEventHandler}
                 placeholder="199"
               />
             </div>
@@ -173,9 +222,8 @@ const CourseTab = () => {
             <Button variant="outline" onClick={() => navigate("/admin/course")}>
               Cancel
             </Button>
-            <Button disable={false}>
-              {" "}
-              {false ? (
+            <Button disable={isLoading} onClick={updateCourseHandler}>
+              {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Please wait
