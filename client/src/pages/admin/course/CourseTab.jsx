@@ -33,7 +33,7 @@ const CourseTab = () => {
   const courseId = params.courseId;
   const [input, setInput] = useState({
     courseTitle: "",
-    subtitle: "",
+    subTitle: "",
     description: "",
     category: "",
     courseLevel: "",
@@ -49,13 +49,14 @@ const CourseTab = () => {
     if (course) {
       setInput({
         courseTitle: course.courseTitle,
-        subtitle: course.subtitle,
+        subTitle: course.subTitle,
         description: course.description,
         category: course.category,
         courseLevel: course.courseLevel,
         coursePrice: course.price,
         courseThumbnail: course.courseThumbnail,
       });
+      setPreviewThumbnail(course.courseThumbnail);
     }
   }, [course]);
   const isPublished = false;
@@ -83,7 +84,7 @@ const CourseTab = () => {
   const updateCourseHandler = async () => {
     const formdata = new FormData();
     formdata.append("courseTitle", input.courseTitle);
-    formdata.append("subtitle", input.subtitle);
+    formdata.append("subTitle", input.subTitle);
     formdata.append("description", input.description);
     formdata.append("category", input.category);
     formdata.append("courseLevel", input.courseLevel);
@@ -95,12 +96,15 @@ const CourseTab = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success(data?.message || "Course updated");
-      // navigate("/admin/course");
+      navigate("/admin/course");
     }
     if (error) {
       toast.error(error?.message || "Something went wrong! Please try again");
     }
   }, [data, isSuccess, error]);
+
+  if (getCourseByIdLoading)
+    return <Loader2 className="mr-2 h-4 w-4 animate-spin" />;
 
   return (
     <Card>
@@ -134,8 +138,8 @@ const CourseTab = () => {
             <Label>Subtitle</Label>
             <Input
               type="text"
-              name="subtitle"
-              value={input.subtitle}
+              name="subTitle"
+              value={input.subTitle}
               onChange={changeEventHandler}
               placeholder="Ex- Become a Zero to Hero Full Stack Developer"
             />
@@ -213,7 +217,7 @@ const CourseTab = () => {
             {previewThumbnail && (
               <img
                 src={previewThumbnail}
-                className="e-64 my-2 h-40 w-40"
+                className="e-64 my-2 h-40 w-40 border-2 border-gray-500"
                 alt="course thumbnail"
               />
             )}

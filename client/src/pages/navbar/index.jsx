@@ -90,9 +90,9 @@ const Header = () => {
             </>
           ) : (
             <div className="flex flex-wrap gap-4">
-              <Button variant="outline" onClick={handleSignup}>
+              {/* <Button variant="outline" onClick={handleSignup}>
                 SignIn
-              </Button>
+              </Button> */}
               <Button onClick={handleSignup}>SignUp</Button>
             </div>
           )}
