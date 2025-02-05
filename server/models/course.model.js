@@ -30,7 +30,7 @@ const courseSchema = mongoose.Schema(
       type: String,
     },
     enrolledStudent: [],
-    lerctures: [
+    lectures: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Lecture",

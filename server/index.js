@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import courseRoute from "./routes/course.route.js";
+import lectureRoute from "./routes/lecture.route.js";
 
 dotenv.config({});
 
@@ -32,6 +33,7 @@ app.use(
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/course", courseRoute);
+app.use("/api/v1/lecture", lectureRoute);
 
 app.listen(PORT, () => {
   console.log(`Server listening at Port ${PORT}`);
