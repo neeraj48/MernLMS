@@ -4,8 +4,12 @@ import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCreateLectureMutation } from "@/feature/api/lectureApi";
+import {
+  useCreateLectureMutation,
+  useGetCourseLectureQuery,
+} from "@/feature/api/lectureApi";
 import { toast } from "sonner";
+import Lecture from "./Lecture";
 
 function CreateLecture() {
   // const isLoading = false;
@@ -13,11 +17,19 @@ function CreateLecture() {
   const param = useParams();
   const courseId = param.courseId;
   const [lectureTitle, setLectureTitle] = useState();
+
   const [createLecture, { data, isLoading, isSuccess, error }] =
     useCreateLectureMutation();
+
   const createLectureHandler = async () => {
     await createLecture({ lectureTitle, courseId });
   };
+
+  const {
+    data: lectureData,
+    isLoading: lectureLoading,
+    error: lectureError,
+  } = useGetCourseLectureQuery(courseId);
 
   useEffect(() => {
     if (isSuccess) {
@@ -28,6 +40,8 @@ function CreateLecture() {
       toast.error(error.data.message || "Failed to create Lecture");
     }
   }, [isSuccess, error]);
+
+  console.log(lectureData);
 
   return (
     <div className="flex-1 mx-10">
@@ -68,6 +82,26 @@ function CreateLecture() {
             )}
           </Button>
         </div>
+      </div>
+      <div className="mt-16">
+        {lectureLoading ? (
+          <Loader2 className="h-10 w-10 animate-spin" />
+        ) : lectureError ? (
+          <p>Failed to load lectures</p>
+        ) : lectureData?.lectures.length === 0 ? (
+          <p>No lecture available</p>
+        ) : (
+          lectureData?.lectures.map((lecture, index) => {
+            return (
+              <Lecture
+                key={lecture?._id}
+                lecture={lecture}
+                courseId={courseId}
+                index={index}
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );

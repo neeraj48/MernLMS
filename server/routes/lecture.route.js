@@ -9,4 +9,5 @@ const router = express.Router();
 
 router.route("/:courseId/lecture").post(isAuthenticated, createLecture);
 router.route("/:courseId/lecture").get(isAuthenticated, getCourseLecture);
+
 export default router;
