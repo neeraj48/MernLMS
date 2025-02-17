@@ -29,7 +29,7 @@ const Header = () => {
   };
   const logoutHandler = async () => {
     await logutUser();
-    navigate("/login");
+    navigate("/");
   };
   useEffect(() => {
     if (isSuccess) {
