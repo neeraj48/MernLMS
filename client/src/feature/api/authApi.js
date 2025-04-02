@@ -22,10 +22,11 @@ export const authApi = createApi({
         url: "login",
         method: "POST",
         body: inputData,
+        responseHandler: (res) => res.json(),
       }),
-      async onQueryStarted(_, { queryFullfilled, dispatch }) {
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
         try {
-          const result = await queryFullfilled;
+          const result = await queryFulfilled;
           dispatch(userLoggedIn({ user: result?.data?.user }));
         } catch (error) {
           console.log(error);
@@ -37,7 +38,7 @@ export const authApi = createApi({
         url: "logout",
         method: "GET",
       }),
-      async onQueryStarted(_, { queryFullfilled, dispatch }) {
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
         try {
           dispatch(userLoggedOut());
         } catch (error) {

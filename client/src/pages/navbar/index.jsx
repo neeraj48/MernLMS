@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 const Header = () => {
   // const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
-  console.log(user);
+  // console.log(user);
   const navigate = useNavigate();
   const [logutUser, { data: userlogoutData, isSuccess }] =
     useLogoutUserMutation();
