@@ -38,3 +38,5 @@ app.use("/api/v1/lecture", lectureRoute);
 app.listen(PORT, () => {
   console.log(`Server listening at Port ${PORT}`);
 });
+
+// process.on(()=>)
