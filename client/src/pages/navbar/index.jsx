@@ -50,7 +50,7 @@ const Header = () => {
             <>
               <DropdownMenu className="mr-10">
                 <DropdownMenuTrigger asChild>
-                  <Avatar className="border-2 border-green-400">
+                  <Avatar className="border-2 border-green-400 cursor-pointer">
                     <AvatarImage
                       src={user?.photoUrl || "https://github.com/shadcn.png"}
                       alt="@shadcn"
