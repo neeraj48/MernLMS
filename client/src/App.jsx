@@ -15,6 +15,7 @@ import AddCourse from "./pages/admin/course/AddCourse";
 import EditCourse from "./pages/admin/course/EditCourse";
 import CreateLecture from "./pages/admin/lecture/createLecture";
 import EditLecture from "./pages/admin/lecture/EditLecture";
+import RouteGuard from "./lib/RouteGuard";
 
 const appRouter = createBrowserRouter([
   {
@@ -25,8 +26,8 @@ const appRouter = createBrowserRouter([
         path: "/",
         element: (
           <>
-            <HeroSection />
-            <Courses />
+              <HeroSection />
+              <Courses />
           </>
         ),
       },
@@ -53,7 +54,12 @@ const appRouter = createBrowserRouter([
         children: [
           {
             path: "dashboard",
-            element: <Dashboard />,
+            element: (
+              // protected route
+              <RouteGuard>
+                <Dashboard />
+              </RouteGuard>
+            ),
           },
           {
             path: "course",
@@ -84,10 +90,12 @@ const appRouter = createBrowserRouter([
 function App() {
   return (
     <main>
-      <h1 className="text-4xl text-red-400 mt-40">learn react</h1>
+      {/* <h1 className="text-4xl text-red-400 mt-40">learn react</h1> */}
       {/* <Header /> */}
       {/* <HeroSection /> */}
+      {/* <RouteGuard> */}
       <RouterProvider router={appRouter} />
+      {/* </RouteGuard> */}
       <Toaster />
       {/* <LoginPage /> */}
     </main>
